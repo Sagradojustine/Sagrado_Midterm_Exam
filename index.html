@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce Dashboard</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <head>
+        <style>
+            .bg-light-pink {
+                background-color: #ffcccb;
+            }
+        </style>
+    </head>
+    <body class="bg-light-pink text-light">
+        <div class="container mt-5">
+          <h1 class="text-center text-white shadow-lg p-3 mb-5 bg-black">
+            E-commerce Dashboard
+          </h1>
+          <div class="row" id="product-list"></div>
+          <div id="notification" class="mt-3"></div>
+        </div>
+    </body>
+    
+
+    <footer
+    class="text-dark text-center py-4 mt-4 mx-auto"
+    style="background-color: #ffcccb; width: 40%;"
+>
+    <p>
+        Contact Us | Follow Us on Social Media: Justine Britney Irish Sagrado
+    </p>
+</footer>
+
+    <script>
+      const products = [
+        {
+          id: 1,
+          name: "Laptop",
+          price: 1500,
+          stock: 5,
+          image:
+            "https://cdn.arstechnica.net/wp-content/uploads/2023/01/vivobook-main-1.jpg",
+        },
+        {
+          id: 2,
+          name: "Headphones",
+          price: 100,
+          stock: 10,
+          image:
+            "https://img.freepik.com/premium-photo/futuristic-fashionable-headphones_74102-3065.jpg",
+        },
+        {
+          id: 3,
+          name: "Keyboard",
+          price: 50,
+          stock: 20,
+          image:
+            "https://png.pngtree.com/thumb_back/fh260/background/20230630/pngtree-d-render-of-a-gamer-s-workspace-with-a-black-background-image_3694468.jpg",
+        },
+      ];
+
+      function displayProducts() {
+    const productList = document.getElementById("product-list");
+    products.forEach((product) => {
+        const productCard = `
+            <div class="col-md-4 mb-4">
+                <div class="card text-dark shadow" style="background-color: #ffcccb;">
+                    <img src="${product.image}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: contain;">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">Price: <span class="text-dark">$${product.price}</span><br>Stock: <span id="stock${product.id}">${product.stock}</span></p>
+                        <button class="btn btn-danger btn-hover" onclick="addToCart(${product.id})">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        productList.innerHTML += productCard;
+    });
+}
+
+
+      function addToCart(productId) {
+        const product = products.find((p) => p.id === productId);
+        if (product && product.stock > 0) {
+          product.stock--;
+          notifyUser(product.name);
+          document.getElementById(`stock${productId}`).textContent =
+            product.stock;
+        } else {
+          alert(
+            `Sorry, ${product ? product.name : "this product"} is out of stock.`
+          );
+        }
+      }
+
+      function notifyUser(productName) {
+        const notification = document.getElementById("notification");
+        notification.innerHTML = `
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    The ${productName} was added to cart successfully.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `;
+      }
+
+      displayProducts();
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
